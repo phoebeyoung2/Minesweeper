@@ -27,7 +27,9 @@ def insert_mines(board, positions):
 
     for i in range(len(positions)):
         col = positions[i][1]
+        col -= 1
         row = positions[i][0]
+        row -= 1
         mine_position = (5*row) + col
         board[mine_position] = 'X'
     return board
@@ -89,12 +91,12 @@ def check_win(board):
 
 def play_game(positions):
     board = initialise_board()
+    display_board(board)
     insert_mines(board, positions)
     hidden_mines = int(len(positions))
     mines_found = 0
 
-    if not check_win(board) and mines_found != hidden_mines:
-        display_board(board)
+    while not check_win(board) and mines_found != hidden_mines:
         row = int(input("Enter row number (1-5):"))
         col = int(input("Enter col number (1-5):"))
         row -= 1
@@ -104,7 +106,8 @@ def play_game(positions):
         if board[mine_position] == '#':
             mines_found += 1
         display_board(board)
-    elif check_win(board):
+
+    if check_win(board):
         print("Congrats you won!")
     elif mines_found == hidden_mines:
         print("Sorry, you lost!")

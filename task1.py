@@ -1,5 +1,2 @@
 from functions_minesweeper import *
-board = initialise_board()
-display_board(board)
-
-
+play_game([[2, 3], [1, 4]])
