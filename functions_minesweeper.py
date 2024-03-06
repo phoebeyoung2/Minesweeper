@@ -1,6 +1,6 @@
 def initialise_board():
-    board = ['O', 'O', 'O', 'O', 'X', 'O', 'X', 'O', 'O', 'O', 'O', 'O',
-             'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O']
+    board = ['O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+             'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O']
     return board
 
 
@@ -69,7 +69,6 @@ def play_turn(board, row, col):
 def check_win(board):
     i = 0
     position_counter = 0
-
     hidden_mines = 0
     found_mines = 0
 
@@ -83,10 +82,9 @@ def check_win(board):
     i += 1
 
     if position_counter == 0 and found_mines == 0:
-        return bool(1)
-
-    if position_counter > 0 or found_mines < hidden_mines:
-        return bool(0)
+        return True
+    else:
+        return False
 
 
 def play_game(positions):
