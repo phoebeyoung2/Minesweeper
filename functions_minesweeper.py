@@ -1,14 +1,25 @@
 def initialise_board():
-    board = ['O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-             'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O']
+    board = ['O', 'O', 'O', 'O', 'X', 'O', 'X', 'O', 'O', 'O', 'O', 'O',
+             'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O']
     return board
 
 
 def display_board(board):
+    internal_board = board[:]
     i = 0
+
     while i in range(len(board)):
-        print(board[i:i+5])
-        i = i + 5
+        if board[i] == 'X':
+            internal_board[i] = 'O'
+            i += 1
+        else:
+            internal_board[i] = board[i]
+            i += 1
+
+    j = 0
+    while j in range(len(board)):
+        print(internal_board[j:j+5])
+        j += 5
     return
 
 
@@ -86,11 +97,11 @@ def play_game(positions):
 
     while not check_win(non_hidden_mines_board):
 
-        row = int(input("Enter row number (1-5):"))
-        col = int(input("Enter column number (1-5):"))
+        row = int(input("Enter row number:"))
+        col = int(input("Enter col number:"))
+
         row -= 1
         col -= 1
-
         mine_position = (5*row) + col
 
         play_turn(non_hidden_mines_board, row, col)
