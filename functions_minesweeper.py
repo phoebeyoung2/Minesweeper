@@ -88,24 +88,23 @@ def check_win(board):
 
 
 def play_game(positions):
-    initial_board = initialise_board()
-    hidden_mines_board = initialise_board()
-    non_hidden_mines_board = insert_mines(initial_board, positions)
-    display_board(hidden_mines_board)
+    board = initialise_board()
+    insert_mines(board, positions)
+    hidden_mines = int(len(positions))
+    mines_found = 0
 
-    while not check_win(non_hidden_mines_board):
-
-        row = int(input("Enter row number:"))
-        col = int(input("Enter col number:"))
-
+    if not check_win(board) and mines_found != hidden_mines:
+        display_board(board)
+        row = int(input("Enter row number (1-5):"))
+        col = int(input("Enter col number (1-5):"))
         row -= 1
         col -= 1
         mine_position = (5*row) + col
-
-        play_turn(non_hidden_mines_board, row, col)
-        hidden_mines_board[mine_position] = non_hidden_mines_board[mine_position]
-        display_board(hidden_mines_board)
-
-    if check_win(non_hidden_mines_board) == bool(1):
-        print("You won!")
-        return
+        play_turn(board, row, col)
+        if board[mine_position] == '#':
+            mines_found += 1
+        display_board(board)
+    elif check_win(board):
+        print("Congrats you won!")
+    elif mines_found == hidden_mines:
+        print("Sorry, you lost!")
