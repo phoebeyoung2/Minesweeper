@@ -96,18 +96,24 @@ def play_game(positions):
     hidden_mines = int(len(positions))
     mines_found = 0
 
-    while not check_win(board) and mines_found != hidden_mines:
-        row = int(input("Enter row number (1-5):"))
-        col = int(input("Enter col number (1-5):"))
-        row -= 1
-        col -= 1
-        mine_position = (5*row) + col
-        play_turn(board, row, col)
+    while not check_win(board) and mines_found == 0:
+
+        position_list = []
+        position_list = input("Enter row and column position in the format 'row column':")
+        col_string = position_list[2]
+        row_string = position_list[0]
+        row_integer = int(row_string)
+        column_integer = int(col_string)
+        row_integer -= 1
+        column_integer -= 1
+
+        mine_position = (5*row_integer) + column_integer
+        play_turn(board, row_integer, column_integer)
         if board[mine_position] == '#':
             mines_found += 1
         display_board(board)
 
     if check_win(board):
         print("Congrats you won!")
-    elif mines_found == hidden_mines:
+    elif mines_found > 0:
         print("Sorry, you lost!")
