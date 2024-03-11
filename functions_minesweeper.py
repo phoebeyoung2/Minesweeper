@@ -157,6 +157,7 @@ def play_turn(board, row, col):
     (post-condition 3) : If there is no adjacent mine or hidden mine, the existing character is replaced with a space
     """
     counter = count_adjacent_mines(board, row, col)
+
     mine_position = (5*row) + col
 
     if board[mine_position] == 'X':
@@ -228,12 +229,9 @@ def play_game(positions):
 
     (post-condition 1) : The initial board is first displayed with an input command for the user
                          to play their first turn
-    (post-condition 2) : After each turn is played, the current state of the board is displayed and
-                         another input command is posed to the user to play their next turn
-    (post-condition 3) : When the user selects a mine location, the final board
-                         is displayed with the message "Sorry, you lost!"
-    (post-condition 4) : When the user wins the game, the final board is displayed with the
-                         message "Congrats, you won!"
+    (post-condition 2) : The iterated board is displayed each time the user plays a turn
+    (post-condition 3) : The board displays the message "Sorry, you lost!" when the user selects a mine location,
+    (post-condition 4) : The final board displays the message "Congrats, you won! When the user wins the game"
 
     """
     board = initialise_board()
@@ -252,8 +250,9 @@ def play_game(positions):
         row_integer -= 1
         column_integer -= 1
 
-        mine_position = (5*row_integer) + column_integer
+        mine_position = (5 * row_integer) + column_integer
         play_turn(board, row_integer, column_integer)
+
         if board[mine_position] == '#':
             mines_found += 1
         display_board(board)
