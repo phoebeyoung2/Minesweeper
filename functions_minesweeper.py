@@ -38,15 +38,15 @@ def display_board(board):
 
     while i in range(len(board)):
         if board[i] == 'X':
-            internal_board[i] = 'O'
+            internal_board[i] = 'O'  # Hiding mines from the users view of the board
             i += 1
         else:
-            internal_board[i] = board[i]
+            internal_board[i] = board[i]  # Displaying spaces, adjacent mines, and 'O' characters
             i += 1
 
     j = 0
     while j in range(len(board)):
-        print(internal_board[j:j+5])
+        print(internal_board[j:j+5])  # Presenting as a 5 x 5 board to the user
         j += 5
     return
 
@@ -76,7 +76,7 @@ def insert_mines(board, positions):
 
     for i in range(len(positions)):
         col = positions[i][1]
-        col -= 1
+        col -= 1  # Language index starts from 0 whereas game index starts from 1
         row = positions[i][0]
         row -= 1
         mine_position = (5*row) + col
@@ -109,19 +109,19 @@ def count_adjacent_mines(board, row, col):
     (Edge-case 1)      : A row or col position of 0 or 4 means there is 1 less adjacent position to check,
                          the function should alter the way it checks adjacent positions accordingly.
     """
-    counter = 0
-    mine_position = (5*row) + col
+    counter = 0  # Count that stores the number of adjacent mines not including diagonal
+    mine_position = (5*row) + col # General formula for converting 2D index to 1D index
 
-    if col < 4 and board[mine_position+1] == 'X':
+    if col < 4 and board[mine_position+1] == 'X':  # Checking the position isn't on the RHS border before checking right
         counter += 1
 
-    if col > 0 and board[mine_position-1] == 'X':
+    if col > 0 and board[mine_position-1] == 'X':  # Checking the position isn't on the LHS border before checking left
         counter += 1
 
-    if row > 0 and board[mine_position-5] == 'X':
+    if row > 0 and board[mine_position-5] == 'X':  # Checking position isn't on the upper border before checking above
         counter += 1
 
-    if row < 4 and board[mine_position+5] == 'X':
+    if row < 4 and board[mine_position+5] == 'X':  # Checking position isn't on the lower border before checking below
         counter += 1
 
     return counter
@@ -161,11 +161,11 @@ def play_turn(board, row, col):
     mine_position = (5*row) + col
 
     if board[mine_position] == 'X':
-        board[mine_position] = '#'
+        board[mine_position] = '#'  # Replacing a hidden mine with '#' character when found
     elif counter > 0 and board[mine_position] == 'O':
-        board[mine_position] = counter
+        board[mine_position] = counter  # Adjacent mines were found and the counter replaces 'O' on the board
     elif counter == 0 and board[mine_position] == 'O':
-        board[mine_position] = ' '
+        board[mine_position] = ' '  # No mines or adjacent mines
 
     return board[mine_position]
 
@@ -208,10 +208,10 @@ def check_win(board):
             found_mines += 1
     i += 1
 
-    if position_counter == 0 and found_mines == 0:
+    if position_counter == 0 and found_mines == 0:  # Game is won when all positions except hidden mines are selected
         return True
     else:
-        return False
+        return False  # Otherwise the game has not been won
 
 
 def play_game(positions):
@@ -240,6 +240,7 @@ def play_game(positions):
     mines_found = 0
 
     while not check_win(board) and mines_found == 0:
+        # Asking the user to play another turn as long as the game has not been won or lost
 
         position_list = []
         position_list = input("Enter row and column position in the format 'row column':")
@@ -255,8 +256,9 @@ def play_game(positions):
 
         if board[mine_position] == '#':
             mines_found += 1
-        display_board(board)
+        display_board(board)  # Displaying the board to the user after they have played their latest turn
 
+    # Message prompts to the user in the event the game has been won or lost
     if check_win(board):
         print("Congrats, you won!")
     elif mines_found > 0:
